@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import TableProduct from "./TableProduct";
 import CreateProduct from "./CreateProduct";
-import ProductPagination from "./ProductPagination";
-import ProductRowOptionsDropDown from "./ProductRowOptionsDropDown";
+import Pagination from "../Pagination/Pagination";
+import RowOptionsDropDown from "../Pagination/RowOptionsDropDown";
 import axios from "axios";
 import { Button } from "semantic-ui-react";
 import "../../custom.css";
@@ -87,13 +87,13 @@ export class Product extends Component {
           fetchProduct={this.fetchProduct}
         />
 
-        <ProductPagination
+        <Pagination
           postsPerPage={postsPerPage}
           totalPosts={product.length}
           paginate={paginate}
         />
 
-        <ProductRowOptionsDropDown
+        <RowOptionsDropDown
           handleRowOptionsDropDown={this.handleRowOptionsDropDown}
         />
       </div>

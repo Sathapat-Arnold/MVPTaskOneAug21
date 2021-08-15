@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Dropdown } from "semantic-ui-react";
 
-export default class CustomerRowOptionsDropDown extends Component {
+export default class RowOptionsDropDown extends Component {
   constructor(props) {
     super(props);
     this.state = {

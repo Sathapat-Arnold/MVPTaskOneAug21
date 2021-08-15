@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SalesPagination = ({ postsPerPage, totalPosts, paginate }) => {
+const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
   const pageNumbers = [];
 
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
@@ -22,4 +22,4 @@ const SalesPagination = ({ postsPerPage, totalPosts, paginate }) => {
   );
 };
 
-export default SalesPagination;
+export default Pagination;

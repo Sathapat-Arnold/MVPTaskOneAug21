@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import TableCustomer from "./TableCustomer";
 import CreateCustomer from "./CreateCustomer";
-import CustomerPagination from "./CustomerPagination";
-import CustomerRowOptionsDropDown from "./CustomerRowOptionsDropDown";
+import Pagination from "../Pagination/Pagination";
+import RowOptionsDropDown from "../Pagination/RowOptionsDropDown";
 import axios from "axios";
 import { Button } from "semantic-ui-react";
 import "../../custom.css";
@@ -87,13 +87,13 @@ export class Customer extends Component {
           fetchCustomer={this.fetchCustomer}
         />
 
-        <CustomerPagination
+        <Pagination
           postsPerPage={postsPerPage}
           totalPosts={customer.length}
           paginate={paginate}
         />
 
-        <CustomerRowOptionsDropDown
+        <RowOptionsDropDown
           handleRowOptionsDropDown={this.handleRowOptionsDropDown}
           fetchCustomer={this.fetchCustomer}
         />

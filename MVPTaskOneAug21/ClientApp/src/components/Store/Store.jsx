@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import TableStore from "./TableStore";
 import CreateStore from "./CreateStore";
-import StorePagination from "./StorePagination";
-import StoreRowOptionsDropDown from "./StoreRowOptionsDropDown";
+import Pagination from "../Pagination/Pagination";
+import RowOptionsDropDown from "../Pagination/RowOptionsDropDown";
 import axios from "axios";
 import { Button } from "semantic-ui-react";
 import "../../custom.css";
@@ -86,13 +86,13 @@ export class Store extends Component {
           fetchStore={this.fetchStore}
         />
 
-        <StorePagination
+        <Pagination
           postsPerPage={postsPerPage}
           totalPosts={store.length}
           paginate={paginate}
         />
 
-        <StoreRowOptionsDropDown
+        <RowOptionsDropDown
           handleRowOptionsDropDown={this.handleRowOptionsDropDown}
           fetchStore={this.fetchStore}
         />
