@@ -14,13 +14,14 @@ namespace MVPTaskOneAug21.Models
         [Key]
         public int Id { get; set; }
 
-        
+
+        [ForeignKey("Product")]
         public int ProductID { get; set; }
 
-        
+        [ForeignKey("Customer")]
         public int CustomerID { get; set; }
 
-        
+        [ForeignKey("Store")]
         public int StoreID { get; set; }
 
         [DataType(DataType.Date)]
