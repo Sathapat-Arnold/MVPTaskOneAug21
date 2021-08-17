@@ -31,7 +31,6 @@ namespace MVPTaskOneAug21.Controllers
                 .ToListAsync();
         }
 
-
         // GET: api/Sales/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Sales>> GetSales(int id)

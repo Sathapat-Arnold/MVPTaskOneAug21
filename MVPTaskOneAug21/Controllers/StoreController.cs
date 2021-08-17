@@ -24,7 +24,9 @@ namespace MVPTaskOneAug21.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Store>>> GetStore()
         {
-            return await _context.Store.ToListAsync();
+            return await _context.Store
+                .Include(s => s.ProductSold)
+                .ToListAsync();
         }
 
         // GET: api/Store/5

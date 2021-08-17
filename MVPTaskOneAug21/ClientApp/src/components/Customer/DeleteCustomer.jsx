@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Button, Header, Modal} from "semantic-ui-react";
+import { Button, Header, Modal } from "semantic-ui-react";
 
 class DeleteCustomer extends Component {
   handleDelete = (id) => {

@@ -118,19 +118,19 @@ namespace MVPTaskOneAug21.Migrations
                     b.HasOne("MVPTaskOneAug21.Models.Customer", "Customer")
                         .WithMany("ProductSold")
                         .HasForeignKey("CustomerID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("MVPTaskOneAug21.Models.Product", "Product")
                         .WithMany("ProductSold")
                         .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("MVPTaskOneAug21.Models.Store", "Store")
                         .WithMany("ProductSold")
                         .HasForeignKey("StoreID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

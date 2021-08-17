@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,6 @@ namespace MVPTaskOneAug21.Models
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<Sales> Sales { get; set; }
+        
     }
 }

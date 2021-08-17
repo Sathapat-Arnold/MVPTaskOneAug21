@@ -1,6 +1,7 @@
 import _ from "lodash";
 import React, { Component } from "react";
 import DeleteCustomer from "./DeleteCustomer";
+import DeleteCustomerAlertModal from "./DeleteCustomerAlertModal";
 import EditCustomer from "./EditCustomer";
 import { Table, Button } from "semantic-ui-react";
 import axios from "axios";
@@ -11,6 +12,7 @@ export default class TableCustomer extends Component {
     super(props);
     this.state = {
       deleteCustomerModal: false,
+      deleteCustomerAlertModal: false,
       deleteCustomerId: null,
       editCustomerModal: false,
       editCustomerId: null,
@@ -34,9 +36,18 @@ export default class TableCustomer extends Component {
       });
   };
 
-  toggleDeleteCustomerModal = (value, id) => {
-    this.setState({ deleteCustomerModal: value });
-    this.setState({ deleteCustomerId: id });
+  toggleDeleteCustomerAlertModal = (value) => {
+    this.setState({ deleteCustomerAlertModal: value });
+  };
+
+  toggleDeleteCustomerModal = (value, id, soldCustomerId) => {
+    if (soldCustomerId == "") {
+      this.setState({ deleteCustomerModal: value });
+      this.setState({ deleteCustomerId: id });
+    } else {
+      this.setState({ deleteCustomerModal: false });
+      this.toggleDeleteCustomerAlertModal(value);
+    }
   };
 
   toggleEditCustomerModal = (value, id, name, address) => {
@@ -49,6 +60,7 @@ export default class TableCustomer extends Component {
   render() {
     const {
       deleteCustomerModal,
+      deleteCustomerAlertModal,
       deleteCustomerId,
       editCustomerModal,
       editCustomerId,
@@ -141,11 +153,16 @@ export default class TableCustomer extends Component {
                       EDIT
                     </Button>
                   </Table.Cell>
+
                   <Table.Cell>
                     <Button
                       color="red"
                       onClick={() =>
-                        this.toggleDeleteCustomerModal(true, customer.id)
+                        this.toggleDeleteCustomerModal(
+                          true,
+                          customer.id,
+                          customer.productSold.map((c) => c.customerID)
+                        )
                       }
                     >
                       DELETE
@@ -167,6 +184,10 @@ export default class TableCustomer extends Component {
           id={deleteCustomerId}
           toggleDeleteCustomerModal={this.toggleDeleteCustomerModal}
           fetchCustomer={this.props.fetchCustomer}
+        />
+        <DeleteCustomerAlertModal
+          open={deleteCustomerAlertModal}
+          toggleDeleteCustomerAlertModal={this.toggleDeleteCustomerAlertModal}
         />
         <EditCustomer
           open={editCustomerModal}

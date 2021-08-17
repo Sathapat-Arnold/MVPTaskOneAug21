@@ -1,16 +1,18 @@
 import _ from "lodash";
 import React, { Component } from "react";
 import DeleteProduct from "./DeleteProduct";
+import DeleteProductAlertModal from "./DeleteProductAlertModal";
 import EditProduct from "./EditProduct";
 import { Table, Button } from "semantic-ui-react";
 import axios from "axios";
-import '../../custom.css';
+import "../../custom.css";
 
 export default class TableProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {
       deleteProductModal: false,
+      deleteProductAlertModal: false,
       deleteProductId: null,
       editProductModal: false,
       editProductId: null,
@@ -19,7 +21,6 @@ export default class TableProduct extends Component {
     };
   }
 
- 
   handleDelete = (id) => {
     axios
       .delete(`/api/Product/${id}`)
@@ -31,9 +32,18 @@ export default class TableProduct extends Component {
       });
   };
 
-  toggleDeleteProductModal = (value, id) => {
-    this.setState({ deleteProductModal: value });
-    this.setState({ deleteProductId: id });
+  toggleDeleteProductAlertModal = (value) => {
+    this.setState({ deleteProductAlertModal: value });
+  };
+
+  toggleDeleteProductModal = (value, id, soldProductId) => {
+    if (soldProductId == "") {
+      this.setState({ deleteProductModal: value });
+      this.setState({ deleteProductId: id });
+    } else {
+      this.setState({ deleteProductModal: false });
+      this.toggleDeleteProductAlertModal(value);
+    }
   };
 
   toggleEditProductModal = (value, id, name, price) => {
@@ -46,6 +56,7 @@ export default class TableProduct extends Component {
   render() {
     const {
       deleteProductModal,
+      deleteProductAlertModal,
       deleteProductId,
       editProductModal,
       editProductId,
@@ -144,7 +155,11 @@ export default class TableProduct extends Component {
                       className="delete-button"
                       color="red"
                       onClick={() =>
-                        this.toggleDeleteProductModal(true, product.id)
+                        this.toggleDeleteProductModal(
+                          true,
+                          product.id,
+                          product.productSold.map((p) => p.productID)
+                        )
                       }
                     >
                       DELETE
@@ -153,8 +168,7 @@ export default class TableProduct extends Component {
                 </Table.Row>
               ))}
             </Table.Body>
-          </Table>          
-          
+          </Table>
         </div>
       );
     };
@@ -167,6 +181,10 @@ export default class TableProduct extends Component {
           id={deleteProductId}
           toggleDeleteProductModal={this.toggleDeleteProductModal}
           fetchProduct={this.props.fetchProduct}
+        />
+        <DeleteProductAlertModal
+          open={deleteProductAlertModal}
+          toggleDeleteProductAlertModal={this.toggleDeleteProductAlertModal}
         />
         <EditProduct
           open={editProductModal}

@@ -1,6 +1,7 @@
 import _ from "lodash";
 import React, { Component } from "react";
 import DeleteStore from "./DeleteStore";
+import DeleteStoreAlertModal from "./DeleteStoreAlertModal";
 import EditStore from "./EditStore";
 import { Table, Button } from "semantic-ui-react";
 import axios from "axios";
@@ -11,6 +12,7 @@ export default class TableStore extends Component {
     super(props);
     this.state = {
       deleteStoreModal: false,
+      deleteStoreAlertModal: false,
       deleteStoreId: null,
       editStoreModal: false,
       editStoreId: null,
@@ -19,7 +21,6 @@ export default class TableStore extends Component {
     };
   }
 
-  
   handleDelete = (id) => {
     axios
       .delete(`/api/Store/${id}`)
@@ -31,9 +32,18 @@ export default class TableStore extends Component {
       });
   };
 
-  toggleDeleteStoreModal = (value, id) => {
-    this.setState({ deleteStoreModal: value });
-    this.setState({ deleteStoreId: id });
+  toggleDeleteStoreAlertModal = (value) => {
+    this.setState({ deleteStoreAlertModal: value });
+  };
+
+  toggleDeleteStoreModal = (value, id, soldStoreId) => {
+    if (soldStoreId == "") {
+      this.setState({ deleteStoreModal: value });
+      this.setState({ deleteStoreId: id });
+    } else {
+      this.setState({ deleteStoreModal: false });
+      this.toggleDeleteStoreAlertModal(value);
+    }
   };
 
   toggleEditStoreModal = (value, id, name, address) => {
@@ -46,6 +56,7 @@ export default class TableStore extends Component {
   render() {
     const {
       deleteStoreModal,
+      deleteStoreAlertModal,
       deleteStoreId,
       editStoreModal,
       editStoreId,
@@ -88,9 +99,7 @@ export default class TableStore extends Component {
     };
 
     const DisplayTable = (props) => {
-      const { items, requestSort, sortConfig } = useSortableData(
-        props.stores
-      );
+      const { items, requestSort, sortConfig } = useSortableData(props.stores);
       const getClassNamesFor = (name) => {
         if (!sortConfig) {
           return;
@@ -142,7 +151,11 @@ export default class TableStore extends Component {
                     <Button
                       color="red"
                       onClick={() =>
-                        this.toggleDeleteStoreModal(true, store.id)
+                        this.toggleDeleteStoreModal(
+                          true,
+                          store.id,
+                          store.productSold.map((s) => s.storeID)
+                        )
                       }
                     >
                       DELETE
@@ -164,6 +177,10 @@ export default class TableStore extends Component {
           id={deleteStoreId}
           toggleDeleteStoreModal={this.toggleDeleteStoreModal}
           fetchStore={this.props.fetchStore}
+        />
+        <DeleteStoreAlertModal
+          open={deleteStoreAlertModal}
+          toggleDeleteStoreAlertModal={this.toggleDeleteStoreAlertModal}
         />
         <EditStore
           open={editStoreModal}
